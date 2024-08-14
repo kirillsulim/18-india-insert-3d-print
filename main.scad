@@ -1,63 +1,58 @@
 include <vendor/boardgame_insert_toolkit_lib.2.scad>;
 
-rad = 12;
-
+lid_rad = 12;
 walls = 1.2;
-/*
-cmp_x = 5;
-cmp_y = 4;
 
-box_x = 180;
-box_y = 120;
-box_z = 22;
+lid_down_space = 4;
+lid_p_n1 = 6;
+lid_p_n2 = 3;
+lid_p_angle = 60;
+lid_p_row_offset = 10;
+lid_p_col_offset = 150;
+lid_p_thick = 1;
 
-data = [[
-  "tokens",
-  [
-    [ BOX_SIZE_XYZ, [box_x, box_y, box_z] ],
+default_lid = [BOX_LID, [
+    [LID_PATTERN_RADIUS, lid_rad],
+    [ LID_PATTERN_N1, lid_p_n1 ],
+    [ LID_PATTERN_N2, lid_p_n2 ],
+    [ LID_PATTERN_ANGLE, lid_p_angle],
+    [ LID_PATTERN_ROW_OFFSET, lid_p_row_offset],
+    [ LID_PATTERN_COL_OFFSET, lid_p_col_offset],
+    [ LID_PATTERN_THICKNESS, lid_p_thick],
+    [ LID_INSET_B, true],
+    [ LID_NOTCHES_B, true],
+]];
+
+
+// Company token box
+ctb_box = [180, 120, 26 - lid_down_space];
+ctb_cmp = [5, 4];
+   
+ctb = [ "Company tokens box", [
+    [ BOX_SIZE_XYZ, [ctb_box.x, ctb_box.y, ctb_box.z] ],
     [ BOX_STACKABLE_B, true ],
-    [ BOX_COMPONENT,
-      [
+    [ BOX_COMPONENT, [
         [ CMP_SHAPE, FILLET],     
-        [ CMP_NUM_COMPARTMENTS_XY, [cmp_x, cmp_y] ],
+        [ CMP_NUM_COMPARTMENTS_XY, [ctb_cmp.x, ctb_cmp.y] ],
         [ CMP_COMPARTMENT_SIZE_XYZ, [ 
-          (box_x - walls * (cmp_x + 1)) / cmp_x, 
-          (box_y - walls * (cmp_y + 1)) / cmp_y, 
-          (box_z - walls),
+            (ctb_box.x - walls * (ctb_cmp.x + 1)) / ctb_cmp.x, 
+            (ctb_box.y - walls * (ctb_cmp.y + 1)) / ctb_cmp.y, 
+            (ctb_box.z - walls),
         ]],
-      ]
-    ],
-    [BOX_LID, [
-      [LID_PATTERN_RADIUS, rad],
-      [ LID_PATTERN_N1, 6 ],
-      [ LID_PATTERN_N2, 3 ],
-      [ LID_PATTERN_ANGLE, 60],
-      [ LID_PATTERN_ROW_OFFSET, 10],
-      [ LID_PATTERN_COL_OFFSET, 150],
-      [ LID_PATTERN_THICKNESS, 1],
-      [ LID_INSET_B, true],
-      [ LID_NOTCHES_B, true],
-    ]]
-  ]
-]];*/
+    ]],
+    default_lid,
+]];
 
-cmp_x = 1;
-cmp_y = 1;
-
-box_x = 112;
-box_y = 45;
-box_z = 21 - 4;
-
-data = [[
-  "what",
-  [
-    [ BOX_SIZE_XYZ, [box_x, box_y, box_z] ],
+// Player markers and resource tokens box
+pmr_box = [112, 45, 21 - lid_down_space];
+pmr = ["Player markers and resource tokens box", [
+    [ BOX_SIZE_XYZ, [pmr_box.x, pmr_box.y, pmr_box.z] ],
     [ BOX_COMPONENT, [
         [ CMP_SHAPE, FILLET],
         [ CMP_COMPARTMENT_SIZE_XYZ, [ 
           55, 
-          (box_y - walls * 2), 
-          (box_z - walls),
+          (pmr_box.y - walls * 2), 
+          (pmr_box.z - walls),
         ]],
         [POSITION_XY, [walls, CENTER]],
       ],
@@ -66,8 +61,8 @@ data = [[
         [ CMP_SHAPE, FILLET],     
         [ CMP_COMPARTMENT_SIZE_XYZ, [ 
           25, 
-          (box_y - walls * 2), 
-          (box_z - walls),
+          (pmr_box.y - walls * 2), 
+          (pmr_box.z - walls),
         ]],
         [POSITION_XY, [walls * 2 + 55, CENTER]],
       ], 
@@ -75,25 +70,74 @@ data = [[
     [ BOX_COMPONENT, [
         [ CMP_SHAPE, FILLET],     
         [ CMP_COMPARTMENT_SIZE_XYZ, [ 
-          box_x - (walls * 3 + 55 + 25) - walls * 3, 
-          (box_y - walls * 2), 
-          (box_z - walls),
+          pmr_box.x - (walls * 3 + 55 + 25) - walls * 3, 
+          (pmr_box.y - walls * 2), 
+          (pmr_box.z - walls),
         ]],
         [POSITION_XY, [walls * 3 + 55 + 25, CENTER]],
       ], 
     ],
-    [BOX_LID, [
-      [LID_PATTERN_RADIUS, rad],
-      [ LID_PATTERN_N1, 6 ],
-      [ LID_PATTERN_N2, 3 ],
-      [ LID_PATTERN_ANGLE, 60],
-      [ LID_PATTERN_ROW_OFFSET, 10],
-      [ LID_PATTERN_COL_OFFSET, 150],
-      [ LID_PATTERN_THICKNESS, 1],
-      [ LID_INSET_B, true],
-      [ LID_NOTCHES_B, true],
-    ]]
+    default_lid,
   ]
+];
+
+// Tile box stack size 4 tile
+tb_rows = 4;
+tb_cols = 6;
+tb2_tile_depth = 4;
+tb4_tile_depth = 4;
+tb_pedestal = true;
+
+//--------------
+g_b_print_lid = t;
+g_b_print_box = t; 
+g_wall_thickness = 2;
+g_tolerance = 0.15;
+g_tolerance_detents_pos = 0.1;
+
+hex_size_base = 32; // Measured
+hex_size = [hex_size_base, ceil(hex_size_base * 0.8660254)-1];
+
+tb4 = [ "Tile box 4", [
+    [ BOX_SIZE_XYZ, [hex_size.y * tb_rows + 4, hex_size.x * tb_cols + 4, tb4_tile_depth * 2 + 2 + (tb_pedestal ? 2 : 0)] ],
+    [ BOX_STACKABLE_B,   t ],
+    [ BOX_LID, [               
+        [ LID_PATTERN_RADIUS, 20],        
+        [ LID_PATTERN_N1, lid_p_n1 ],
+        [ LID_PATTERN_N2, lid_p_n2 ],
+        [ LID_PATTERN_ANGLE, lid_p_angle],
+        [ LID_PATTERN_ROW_OFFSET, lid_p_row_offset],
+        [ LID_PATTERN_COL_OFFSET, lid_p_col_offset],
+        [ LID_PATTERN_THICKNESS, lid_p_thick],
+
+        [ LID_LABELS_BORDER_THICKNESS,  1.5 ],
+        [ LID_LABELS_BG_THICKNESS,      5 ],
+        [ LABEL, [
+            [ LBL_TEXT,     "18 India"],
+            [ LBL_SIZE,     AUTO ],
+            [ LBL_FONT,     "URW Bookman:style=Demi Italic"],
+            [ ROTATION,     -60],
+            [ POSITION_XY, [3.5, 5]]
+        ]],                                   
+    ]],
+    [ BOX_COMPONENT, [
+        [CMP_NUM_COMPARTMENTS_XY, [ tb_rows, tb_cols ]],
+        [CMP_COMPARTMENT_SIZE_XYZ, [ hex_size.y, hex_size.x, tb4_tile_depth * 2 ]],
+        [CMP_SHAPE, HEX],
+        [CMP_SHAPE_VERTICAL_B, t],    
+        [CMP_PADDING_XY, [0,0]],
+        [CMP_PEDESTAL_BASE_B, tb_pedestal],
+        [CMP_CUTOUT_CORNERS_4B, [t,t,t,t]],
+        [CMP_CUTOUT_TYPE, INTERIOR],
+    ]],
 ]];
+
+
+
+data = [
+    ctb,
+    pmr,
+    tb4,
+];
 
 MakeAll(); 
