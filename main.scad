@@ -25,7 +25,7 @@ default_lid = [BOX_LID, [
 
 
 // Company token box
-ctb_box = [180, 120, 26 - lid_down_space];
+ctb_box = [182, 120, 26 - lid_down_space];
 ctb_cmp = [5, 4];
    
 ctb = [ "Company tokens box", [
@@ -81,10 +81,12 @@ pmr = ["Player markers and resource tokens box", [
   ]
 ];
 
-// Tile box stack size 4 tile
+/*
+ * Tile box based on https://www.thingiverse.com/thing:4594612
+ */
 tb_rows = 4;
 tb_cols = 6;
-tb2_tile_depth = 4;
+tb2_tile_depth = 2;
 tb4_tile_depth = 4;
 tb_pedestal = true;
 
@@ -98,9 +100,10 @@ g_tolerance_detents_pos = 0.1;
 hex_size_base = 32; // Measured
 hex_size = [hex_size_base, ceil(hex_size_base * 0.8660254)-1];
 
-tb4 = [ "Tile box 4", [
-    [ BOX_SIZE_XYZ, [hex_size.y * tb_rows + 4, hex_size.x * tb_cols + 4, tb4_tile_depth * 2 + 2 + (tb_pedestal ? 2 : 0)] ],
+function tile_box(tile_depth, add_lid) = [ "Tile box " + tile_depth, [
+    [ BOX_SIZE_XYZ, [hex_size.y * tb_rows + 4, hex_size.x * tb_cols + 4, tile_depth * 2 + 2 + (tb_pedestal ? 2 : 0)] ],
     [ BOX_STACKABLE_B,   t ],
+    [ BOX_NO_LID_B, !add_lid],
     [ BOX_LID, [               
         [ LID_PATTERN_RADIUS, 20],        
         [ LID_PATTERN_N1, lid_p_n1 ],
@@ -117,12 +120,12 @@ tb4 = [ "Tile box 4", [
             [ LBL_SIZE,     AUTO ],
             [ LBL_FONT,     "URW Bookman:style=Demi Italic"],
             [ ROTATION,     -60],
-            [ POSITION_XY, [3.5, 5]]
+            [ POSITION_XY, [0, 0]]
         ]],                                   
     ]],
     [ BOX_COMPONENT, [
         [CMP_NUM_COMPARTMENTS_XY, [ tb_rows, tb_cols ]],
-        [CMP_COMPARTMENT_SIZE_XYZ, [ hex_size.y, hex_size.x, tb4_tile_depth * 2 ]],
+        [CMP_COMPARTMENT_SIZE_XYZ, [ hex_size.y, hex_size.x, tile_depth * 2 ]],
         [CMP_SHAPE, HEX],
         [CMP_SHAPE_VERTICAL_B, t],    
         [CMP_PADDING_XY, [0,0]],
@@ -132,12 +135,19 @@ tb4 = [ "Tile box 4", [
     ]],
 ]];
 
+// Tile box for 4 tiles stack (2 pc.) included lid (1 pc.)
+tb4 = tile_box(4, true);
+
+// Tile box for 2 tiles stack (2 pc.) without lid
+tb2 = tile_box(2, false);
+
 
 
 data = [
-    ctb,
-    pmr,
-    tb4,
+    //ctb,
+    //pmr,
+    //tb4,
+    //tb2,
 ];
 
 MakeAll(); 

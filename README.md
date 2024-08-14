@@ -18,6 +18,10 @@ oak build
 
 .stl files will be found in `./build` directory.
 
+## Known issues
+
+1. Due to some errors this models are not valid manyfolds. In that case Slic3r splits models to some empty files that needs to be filtered out manually.
+
 
 ## Acknowledgement
 
