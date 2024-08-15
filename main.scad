@@ -141,6 +141,73 @@ tb4 = tile_box(4, true);
 // Tile box for 2 tiles stack (2 pc.) without lid
 tb2 = tile_box(2, false);
 
+// Card box
+cb_box = [102, 182, 59];
+cb_box_angle = 30;
+cb_box_cmp_z = cb_box.z - walls;
+cb_box_cmp = [
+    70,
+    cb_box.y - 2 * walls - cb_box_cmp_z * tan(cb_box_angle),
+    cb_box_cmp_z,
+];
+cb = ["cards",[
+    [ BOX_SIZE_XYZ, cb_box],
+    [ BOX_NO_LID_B, true],
+    [ BOX_COMPONENT, [
+        [CMP_COMPARTMENT_SIZE_XYZ, cb_box_cmp],
+        [CMP_SHEAR, [0, cb_box_angle]],
+        [CMP_CUTOUT_SIDES_4B, [true, true, false, false]],
+        [CMP_CUTOUT_DEPTH_PCT, 20],
+        [CMP_CUTOUT_WIDTH_PCT, 50],
+        [CMP_CUTOUT_TYPE, BOTH],
+        [CMP_CUTOUT_HEIGHT_PCT, 100],                    
+        //[POSITION_XY, [CENTER, - cb_box_cmp.z * tan(cb_box_angle)]],
+        //[CMP_MARGIN_FBLR,               [0,0,0,0]],
+        
+        //[CMP_CUTOUT_SIDES_4B,           [tff,f]],
+        //[CMP_CUTOUT_DEPTH_PCT,          30],
+        //[CMP_CUTOUT_WIDTH_PCT,          50],
+        //
+     ]], 
+     [ BOX_COMPONENT, [
+        [CMP_COMPARTMENT_SIZE_XYZ, [cb_box_cmp.x, 50, cb_box_cmp.z]],
+        [POSITION_XY, [CENTER, -10]],
+        [CMP_CUTOUT_SIDES_4B, [true, false, false, false]],
+     ]],
+     [ BOX_COMPONENT, [
+        [CMP_COMPARTMENT_SIZE_XYZ, [cb_box_cmp.x, 50, cb_box_cmp.z]],
+        [POSITION_XY, [CENTER, -10]],
+        [CMP_CUTOUT_SIDES_4B, [true, false, false, false]],
+     ]], 
+]];
+
+// Player & company mats
+pcm_box = [218 , 112, 14];
+pcm = ["Player & company mats", [
+    [ BOX_NO_LID_B, true],
+    [ BOX_SIZE_XYZ, [pcm_box.x, pcm_box.y, pcm_box.z]],
+    [ BOX_COMPONENT, [
+        [ CMP_COMPARTMENT_SIZE_XYZ, [ 
+            (pcm_box.x - walls * 2), 
+            (pcm_box.y - walls * 2), 
+            (pcm_box.z - walls),
+        ]],
+    ]],
+    [ BOX_COMPONENT, [
+        [ CMP_COMPARTMENT_SIZE_XYZ, [ 
+            14, 
+            14, 
+            pcm_box.z + 100,
+        ]],
+        [CMP_SHAPE, SQUARE],
+        [CMP_NUM_COMPARTMENTS_XY, [12, 6]],
+        [CMP_SHAPE_ROTATED_B, true],
+        [CMP_PADDING_XY, [3, 3]],
+        [CMP_CUTOUT_BOTTOM_B, true],
+        
+    ]],
+]];
+
 
 
 data = [
@@ -148,6 +215,8 @@ data = [
     //pmr,
     //tb4,
     //tb2,
+    cb,
+    //pcm,
 ];
 
 MakeAll(); 
