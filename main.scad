@@ -142,7 +142,7 @@ tb4 = tile_box(4, true);
 tb2 = tile_box(2, false);
 
 // Card box
-cb_box = [102, 182, 59];
+cb_box = [78, 182, 59];
 cb_box_angle = 30;
 cb_box_cmp_z = cb_box.z - walls;
 cb_box_cmp = [
@@ -173,12 +173,35 @@ cb = ["cards",[
         [CMP_COMPARTMENT_SIZE_XYZ, [cb_box_cmp.x, 50, cb_box_cmp.z]],
         [POSITION_XY, [CENTER, -10]],
         [CMP_CUTOUT_SIDES_4B, [true, false, false, false]],
-     ]],
-     [ BOX_COMPONENT, [
-        [CMP_COMPARTMENT_SIZE_XYZ, [cb_box_cmp.x, 50, cb_box_cmp.z]],
-        [POSITION_XY, [CENTER, -10]],
-        [CMP_CUTOUT_SIDES_4B, [true, false, false, false]],
      ]], 
+     [ BOX_COMPONENT, [
+        [CMP_COMPARTMENT_SIZE_XYZ, [cb_box_cmp.x + 4, 2, cb_box_cmp.z]],
+        [CMP_SHEAR, [0, cb_box_angle]],
+        [CMP_NUM_COMPARTMENTS_XY, [ 1, 45]],
+        [POSITION_XY, [CENTER, cb_box_cmp_z * tan(cb_box_angle) / 2]],
+     ]], 
+]];
+// Card box dividers
+cbd_text = [
+    "Players",
+    "Guaranty",
+    "Bonds",
+    "Regions",
+    "Trains",
+    "Shares",
+];
+cbd_size = [cb_box_cmp.x + 3, 45];
+cbd = ["Card box dividers", [
+    [ TYPE, DIVIDERS ],
+    [ DIV_TAB_TEXT, cbd_text],
+    [ DIV_TAB_CYCLE, len(cbd_text)],
+    [ DIV_FRAME_NUM_COLUMNS, 2],
+    [ DIV_FRAME_SIZE_XY, cbd_size],
+    [ DIV_THICKNESS, 0.8 ],
+    //[ DIV_TAB_TEXT_SIZE, 5],
+    [ DIV_TAB_TEXT_FONT, "Black Ops One:style=Regular"],
+    //[ DIV_TAB_SIZE_XY, [cbd_size.x / 3, 8]],
+    //[ DIV_TAB_RADIUS, 2],
 ]];
 
 // Player & company mats
@@ -208,6 +231,25 @@ pcm = ["Player & company mats", [
     ]],
 ]];
 
+// Money tray (2 pc.)
+mt_box = [180 /* add 2*/, 120, 17];
+   
+mt = [ "Money tray", [
+    [ BOX_NO_LID_B, true],
+    [ BOX_SIZE_XYZ, [mt_box.x, mt_box.y, mt_box.z] ],
+    [ BOX_STACKABLE_B, true ],
+    [ LID_CUTOUT_SIDES_4B, [false, false, false, false] ],
+    [ BOX_COMPONENT, [
+        [ CMP_SHAPE, FILLET ],
+        [ CMP_FILLET_RADIUS, 5 ],
+        [ CMP_SHAPE_ROTATED_B, true],
+        [ CMP_NUM_COMPARTMENTS_XY, [3, 1] ],
+        [ CMP_COMPARTMENT_SIZE_XYZ, [55, 112, mt_box.z]],
+        [ CMP_PADDING_XY, [4, 7]],
+        [ CMP_CUTOUT_SIDES_4B, [ true, true, false, false ] ],
+        [ CMP_CUTOUT_DEPTH_PCT, 20],
+    ]],
+]];
 
 
 data = [
@@ -215,8 +257,10 @@ data = [
     //pmr,
     //tb4,
     //tb2,
-    cb,
+    //cb,
+    //cbd,
     //pcm,
+    mt,
 ];
 
 MakeAll(); 

@@ -9,6 +9,7 @@
 1. [Openscad](https://openscad.org/) - for render .stl files
 1. [Slic3r](https://slic3r.org/) - for splitting .stl files
 1. [Oak build](https://github.com/kirillsulim/oak-build) - for build script
+1. [Black Ops font](https://fonts.google.com/specimen/Black+Ops+One) - fir dividers
 
 ## Build
 
