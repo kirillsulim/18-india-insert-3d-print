@@ -188,9 +188,10 @@ cbd_text = [
     "Bonds",
     "Regions",
     "Trains",
+    "Dir. Shares",
     "Shares",
 ];
-cbd_size = [cb_box_cmp.x + 3, 45];
+cbd_size = [cb_box_cmp.x + 3.5, 48];
 cbd = ["Card box dividers", [
     [ TYPE, DIVIDERS ],
     [ DIV_TAB_TEXT, cbd_text],
@@ -251,6 +252,22 @@ mt = [ "Money tray", [
     ]],
 ]];
 
+// Utility box
+ub_box = [182, 59, 20 - lid_down_space];
+ub = [ "Utility box", [
+    [ BOX_SIZE_XYZ, [ub_box.x, ub_box.y, ub_box.z] ],
+    [ BOX_STACKABLE_B, true ],
+    [ BOX_COMPONENT, [
+        [ CMP_SHAPE, FILLET],     
+        [ CMP_COMPARTMENT_SIZE_XYZ, [ 
+            (ub_box.x - walls * 4), 
+            (ub_box.y - walls * 4), 
+            (ub_box.z - walls),
+        ]],
+    ]],
+    default_lid,
+]];
+
 
 data = [
     //ctb,
@@ -260,7 +277,8 @@ data = [
     //cb,
     //cbd,
     //pcm,
-    mt,
+    //mt,
+    ub,
 ];
 
-MakeAll(); 
+MakeAll();
