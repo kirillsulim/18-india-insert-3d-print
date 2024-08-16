@@ -1,7 +1,5 @@
 #     18-india-insert-3d-print
 
-**Status: WIP**
-
 [Openscad](https://openscad.org/) project of 3d printed insert (aka organizer) for [18 India boardgame](https://boardgamegeek.com/boardgame/344937/18-india).
 
 ## Required software
@@ -9,7 +7,8 @@
 1. [Openscad](https://openscad.org/) - for render .stl files
 1. [Slic3r](https://slic3r.org/) - for splitting .stl files
 1. [Oak build](https://github.com/kirillsulim/oak-build) - for build script
-1. [Black Ops font](https://fonts.google.com/specimen/Black+Ops+One) - fir dividers
+1. [URW Bookman font](https://fontesk.com/bookman-typeface/) - font for tile box label
+1. [Black Ops One font](https://fonts.google.com/specimen/Black+Ops+One) - font for card dividers
 
 ## Build
 

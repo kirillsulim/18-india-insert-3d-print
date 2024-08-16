@@ -233,7 +233,7 @@ pcm = ["Player & company mats", [
 ]];
 
 // Money tray (2 pc.)
-mt_box = [180 /* add 2*/, 120, 17];
+mt_box = [182, 120, 17];
    
 mt = [ "Money tray", [
     [ BOX_NO_LID_B, true],
@@ -270,14 +270,14 @@ ub = [ "Utility box", [
 
 
 data = [
-    //ctb,
-    //pmr,
-    //tb4,
-    //tb2,
-    //cb,
-    //cbd,
-    //pcm,
-    //mt,
+    ctb,
+    pmr,
+    tb4,
+    tb2,
+    cb,
+    cbd,
+    pcm,
+    mt,
     ub,
 ];
 
